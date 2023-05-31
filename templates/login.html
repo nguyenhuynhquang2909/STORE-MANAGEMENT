@@ -7,17 +7,25 @@
     <title>Login</title>
 </head>
 <body>
-    <div>
-        <h1>Login</h1>
-        {% if error %}
-        <div>{{ error }}</div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
         {% endif %}
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email" required>
+    {% endwith %}
+        <h1>Login</h1>
+        <form action= "{{url_for('login')}}" method="POST">
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Email" required><br>
+
+            <label for="password">Password</label>
             <input type="password" name="password" placeholder="Password" required>
+
             <input type="submit" value="Login">
         </form>
         <p>Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
-    </div>
 </body>
 </html>

@@ -7,6 +7,33 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Hello World</h1>
+    
+</body>
+</html>
+<body>
+	<h1>Store Inventory Management</h1>
+    {% if inventory %}
+	<table>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        {% for item in inventory %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p> No inventory items available</p>
+    {% endif %}
+    <a href="{{ url_for('add') }}">Add Item</a>
+
+	<a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>
