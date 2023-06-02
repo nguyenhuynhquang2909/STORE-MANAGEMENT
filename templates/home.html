@@ -12,20 +12,24 @@
 </html>
 <body>
 	<h1>Store Inventory Management</h1>
-    {% if inventory %}
+    {% if item %}
 	<table>
         <tr>
             <th>Name</th>
             <th>Category</th>
             <th>Price</th>
             <th>Quantity</th>
+            <th>Modify</th>
         </tr>
-        {% for item in inventory %}
+        {% for row in item %}
         <tr>
-            <td>{{ item.name }}</td>
-            <td>{{ item.category }}</td>
-            <td>{{ item.price }}</td>
-            <td>{{ item.quantity }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>
+                <a href="/delete/{{row[0]}}">Delete</a>
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -33,7 +37,6 @@
         <p> No inventory items available</p>
     {% endif %}
     <a href="{{ url_for('add') }}">Add Item</a>
-
 	<a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>

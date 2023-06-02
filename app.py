@@ -9,9 +9,10 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 bcrypt = Bcrypt(app)
 
-@app.route('/')     
+@app.route('/', methods = ['GET'])     
 def home():
-    return render_template('home.html')
+    items = getitem()
+    return render_template('home.html', item = items)
 
 @app.route('/register/', methods = ['GET', 'POST'])
 def register():
@@ -67,17 +68,17 @@ def logout():
     flash('You have been logout', 'info')
     return redirect('/login')   
 
-@app.route('/')
-def index():
+def getitem():
     conn = sqlite3.connect('store.db')
     cur = conn.cursor()
-    cur.execute("SELECT * FROM inventory")
-    inventory = cur.fetchall()
+    cur.execute('SELECT * FROM inventory ORDER BY id ASC')
+    items = cur.fetchall()
     conn.close()
-    return render_template('home.html')
+    return items
 
 @app.route('/add/', methods = ['POST', 'GET'])
 def add():
+    # Code to add new item to the database
     if request.method == 'POST':
         name = request.form['name']
         category = request.form['category']
@@ -92,6 +93,16 @@ def add():
         return redirect(url_for('home'))
     else:
         return render_template('add.html')
+
+@app.route('/delete/<int:item_id>/', methods=['GET'])
+def delete(item_id):
+    conn = sqlite3.connect('store.db')
+    cur = conn.cursor()
+    conn.execute("DELETE  FROM inventory WHERE id = ?", (item_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('home'))
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
