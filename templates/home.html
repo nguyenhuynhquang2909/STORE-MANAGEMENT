@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
     <title>Home</title>
+    {%block head%} {%endblock%}
 </head>
 <body>
-    
-</body>
-</html>
-<body>
+    {%block body%}
 	<h1>Store Inventory Management</h1>
     {% if item %}
 	<table>
@@ -29,6 +28,8 @@
             <td>{{ row[4] }}</td>
             <td>
                 <a href="/delete/{{row[0]}}">Delete</a>
+                <br>
+                <a href="{{url_for('update', item_id = row[0])}}">Update</a>
             </td>
         </tr>
         {% endfor %}
@@ -36,7 +37,10 @@
     {% else %}
         <p> No inventory items available</p>
     {% endif %}
+    <div class="center">
     <a href="{{ url_for('add') }}">Add Item</a>
+    </div>
 	<a href="{{ url_for('logout') }}">Logout</a>
+    {%endblock%}
 </body>
 </html>

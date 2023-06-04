@@ -1,0 +1,19 @@
+table, th, td {
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    table-layout: fixed;
+    text-align: center;
+}
+.center {
+    text-align: center;
+}
+.center a{
+    display: inline-block;
+    text-align: center;
+}
+h1{
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}

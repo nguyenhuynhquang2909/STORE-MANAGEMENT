@@ -94,6 +94,28 @@ def add():
     else:
         return render_template('add.html')
 
+@app.route('/update/<int:item_id>/', methods=['GET', 'POST'])
+def update(item_id):
+    if request.method == 'POST':
+        name = request.form['name']
+        category = request.form['category']
+        price = float(request.form['price'])
+        quantity = float(request.form['quantity'])
+
+        conn = sqlite3.connect('store.db')
+        cur = conn.cursor()
+        cur.execute('UPDATE inventory SET name = ?, category = ?, price = ?, quantity = ? WHERE id = ?', (name, category, price, quantity, item_id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('home'))
+    else:
+        conn = sqlite3.connect('store.db')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM inventory WHERE id = ?", (item_id,))
+        item = cur.fetchone()
+        conn.close()
+        return render_template('update.html', item = item)
+    
 @app.route('/delete/<int:item_id>/', methods=['GET'])
 def delete(item_id):
     conn = sqlite3.connect('store.db')
@@ -102,6 +124,7 @@ def delete(item_id):
     conn.commit()
     conn.close()
     return redirect(url_for('home'))
+
     
 
 if __name__ == '__main__':
